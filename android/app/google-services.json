@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "387987534163",
+    "project_id": "hrsystem-f096e",
+    "storage_bucket": "hrsystem-f096e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387987534163:android:5d8cd653df830f2e96f1a6",
+        "android_client_info": {
+          "package_name": "com.hrsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387987534163-55t6qs3b4for2cd5pips9v77o3fgff41.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hrsystem",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "387987534163-serbj14tgbci81qk1u9mmifpmpg1cvpn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9bkKRCj7XVnOLcT5QnfffV1oiyczCYzA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387987534163-serbj14tgbci81qk1u9mmifpmpg1cvpn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
