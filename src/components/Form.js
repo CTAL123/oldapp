@@ -158,10 +158,18 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 15,
     marginHorizontal: 20,
-    backgroundColor: '#f86df3',
+    backgroundColor: 'white',
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 6,
   },
   text: {},
 });

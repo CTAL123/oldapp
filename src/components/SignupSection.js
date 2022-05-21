@@ -17,6 +17,10 @@ export default class SignupSection extends Component {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
+            backgroundColor: '#ff5e1e',
+            paddingVertical: 10,
+            paddingHorizontal: 10,
+            borderRadius: 10,
           }}>
           <Text style={styles.text}>New user , </Text>
           <TouchableOpacity
@@ -46,8 +50,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   textDark: {
-    color: 'purple',
-    backgroundColor: 'transparent',
+    color: '#32eaff',
     textDecorationLine: 'underline',
   },
 });

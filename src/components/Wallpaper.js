@@ -1,24 +1,18 @@
 import React, {Component} from 'react';
 
-import {StyleSheet, ImageBackground} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import bgSrc from '../images/wallpaper.png';
 
 export default class Wallpaper extends Component {
   render() {
-    return (
-      <ImageBackground style={styles.picture} source={bgSrc}>
-        {this.props.children}
-      </ImageBackground>
-    );
+    return <View style={styles.picture}>{this.props.children}</View>;
   }
 }
 
 const styles = StyleSheet.create({
   picture: {
     flex: 1,
-    width: null,
-    height: null,
-    resizeMode: 'cover',
+    backgroundColor: 'white',
   },
 });

@@ -12,7 +12,7 @@ const UserInput = props => {
         autoCorrect={props.autoCorrect}
         autoCapitalize={props.autoCapitalize}
         returnKeyType={props.returnKeyType}
-        placeholderTextColor="white"
+        placeholderTextColor="black"
         underlineColorAndroid="transparent"
         onChangeText={input => {
           props.returnValue(input);
@@ -28,14 +28,22 @@ const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    backgroundColor: '#ffffff',
     width: DEVICE_WIDTH - 40,
     height: 55,
     marginHorizontal: 20,
     paddingLeft: 45,
     borderRadius: 20,
-    color: '#ffffff',
+    color: 'black',
     fontSize: 18,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 10,
   },
   inputWrapper: {
     // flex: 1,
@@ -48,5 +56,6 @@ const styles = StyleSheet.create({
     height: 22,
     left: 35,
     top: 15,
+    tintColor: 'black',
   },
 });
