@@ -20,11 +20,10 @@ import eyeImg from '../images/eye_black.png';
 
 import usernameImg from '../images/username.png';
 import passwordImg from '../images/password.png';
-
 import email from '../images/email.png';
+
 import {loading, success, updateUserInfo} from '../actions/generalActions';
 import Toast from 'react-native-toast-message';
-import bgSrc from '../images/wallpaper.png';
 import navigationService from '../route/navigationService';
 import moment from 'moment';
 import RoundedNextButton from '../components/roundedNextButton';
@@ -133,7 +132,12 @@ export const SignUpForm = () => {
               }
             });
             if (newUser) {
-              setShowDateComponent(true);
+              if (userRole == 'patient') {
+                setShowDateComponent(true);
+              } else {
+                dispatch(loading());
+                userSignup();
+              }
             } else {
               Toast.show({
                 type: 'error',

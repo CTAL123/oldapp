@@ -65,7 +65,13 @@ const Profile = () => {
         </View>
         <Text style={styles.nameStyle}>{userInfo?.name}</Text>
       </View>
-      <LabeledIconComponent title="user profile" iconName="key" />
+      <LabeledIconComponent
+        title="user profile"
+        iconName="key"
+        onPress={() => {
+          navigationService.navigate('UpdateProfile');
+        }}
+      />
       <LabeledIconComponent title="help center" iconName="alert-octagon" />
       <TouchableOpacity
         style={{

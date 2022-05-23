@@ -132,7 +132,7 @@ const Appointment = () => {
             alignSelf: 'center',
             marginVertical: 20,
           }}>
-          Appointment
+          {userInfo?.userRole == 'staff' ? 'Appointment List' : ' Appointment'}
         </Text>
 
         <View
@@ -141,9 +141,12 @@ const Appointment = () => {
             borderTopLeftRadius: 30,
             backgroundColor: '#272b63',
             justifyContent: 'center',
-            alignItems: appointmentStatus ? 'stretch' : 'center',
+            alignItems:
+              appointmentStatus || userInfo?.userRole == 'staff'
+                ? 'stretch'
+                : 'center',
           }}>
-          {appointmentStatus ? (
+          {appointmentStatus || userInfo?.userRole == 'staff' ? (
             <FitnessTaskCard
               doctorName="Morning Walk"
               routine="12 September, 3:00 pm"
