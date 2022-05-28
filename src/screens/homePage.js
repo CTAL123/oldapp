@@ -11,10 +11,38 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/Feather';
 import CarouselComponent from '../components/carousel';
+import navigationService from '../route/navigationService';
+import firestore from '@react-native-firebase/firestore';
+import FIcon from 'react-native-vector-icons/Ionicons';
+
+import {loading, success} from '../actions/generalActions';
+
+let userArray = [];
 
 const HomePage = () => {
   const userInfo = useSelector(state => state.general.userInfo);
-  console.log('object', userInfo);
+  const dispatch = useDispatch();
+  const getUsers = () => {
+    dispatch(loading());
+    if (userArray.length == 0) {
+      firestore()
+        .collection('Users')
+        .get()
+        .then(snap => {
+          snap.forEach(async snp => {
+            userArray.push(snp?.id);
+          });
+          dispatch(success());
+          navigationService.navigate('PatientList', {data: userArray});
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      dispatch(success());
+      navigationService.navigate('PatientList', {data: userArray});
+    }
+  };
   const Slides = [
     <Image
       source={require('../images/health6.png')}
@@ -98,7 +126,7 @@ const HomePage = () => {
             : 'Its time to check your blood sugar level'}
         </Text>
       </View>
-      <View
+      <TouchableOpacity
         style={{
           backgroundColor: 'white',
           shadowColor: '#000',
@@ -113,7 +141,10 @@ const HomePage = () => {
           borderRadius: 20,
           padding: 20,
           marginTop: 30,
-        }}>
+        }}
+        activeOpacity={0.75}
+        disabled={userInfo?.userRole == 'patient'}
+        onPress={getUsers}>
         <Text
           style={{
             fontSize: 20,
@@ -124,9 +155,21 @@ const HomePage = () => {
             alignSelf: userInfo?.userRole == 'staff' ? 'center' : 'flex-start',
           }}>
           {userInfo?.userRole == 'staff'
-            ? 'Trusted by others'
+            ? 'Monitor Your Patient'
             : 'Its time to check your blood sugar level'}
         </Text>
+        {userInfo?.userRole == 'staff' && (
+          <FIcon
+            name="arrow-forward-circle-outline"
+            style={{
+              color: 'black',
+              fontSize: 36,
+              position: 'absolute',
+              right: 10,
+              top: 10,
+            }}
+          />
+        )}
         {userInfo?.userRole == 'patient' && (
           <View
             style={{
@@ -208,7 +251,7 @@ const HomePage = () => {
             </TouchableOpacity>
           </View>
         )}
-      </View>
+      </TouchableOpacity>
       {userInfo?.userRole == 'staff' ? (
         <CarouselComponent
           slides={Slides}

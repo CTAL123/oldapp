@@ -12,6 +12,7 @@ import Fitness from '../screens/fitness';
 import Appointment from '../screens/appointment';
 import BookAppointment from '../screens/bookAppointment';
 import UpdateProfile from '../screens/updateProfile';
+import PatientList from '../screens/patientList';
 const MainStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -109,8 +110,10 @@ const HomepageStack = () => (
       headerShown: false,
     }}>
     <MainStack.Screen name="TabStack" component={TabStack} />
+    <MainStack.Screen name="Fitness" component={Fitness} />
     <MainStack.Screen name="BookAppointment" component={BookAppointment} />
     <MainStack.Screen name="UpdateProfile" component={UpdateProfile} />
+    <MainStack.Screen name="PatientList" component={PatientList} />
     {/* <MainStack.Screen name="TabStack" component={TabStack} /> */}
   </MainStack.Navigator>
 );

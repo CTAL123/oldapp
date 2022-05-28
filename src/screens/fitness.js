@@ -101,9 +101,10 @@ const FitnessTaskCard = props => {
     </View>
   );
 };
-const Fitness = () => {
+const Fitness = props => {
   const userInfo = useSelector(state => state.general.userInfo);
-  console.log('object', userInfo);
+  console.log('params data', props?.route?.params);
+
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>
       <View

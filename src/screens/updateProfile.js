@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 
 import usernameImg from '../images/username.png';
-import email from '../images/email.png';
+import emailPic from '../images/email.png';
 
 import UserInput from '../components/UserInput';
 import {loading, success, updateUserInfo} from '../actions/generalActions';
@@ -61,43 +61,51 @@ const UserCard = props => {
     </TouchableOpacity>
   );
 };
-const UpdateProfile = () => {
+const UpdateProfile = props => {
+  const paramsData = props.route?.params;
   const UserInfo = useSelector(state => state.general.userInfo);
+
+  const checkData = typeof paramsData === 'undefined';
+  // console.log('params data', );
+  const namePlaceholder = checkData ? UserInfo.name : paramsData?.name;
+  const emailPlaceholder = checkData ? UserInfo.email : paramsData?.email;
+
   const dispatch = useDispatch();
-  const [userInfo, setUserInfo] = useState({
-    name: UserInfo.name,
-    email: UserInfo.email,
-  });
+
+  const [name, setName] = useState(
+    checkData ? UserInfo.name : paramsData?.name,
+  );
+  const [email, setEmail] = useState(
+    checkData ? UserInfo.email : paramsData?.email,
+  );
 
   const saveUpdatedData = () => {
     try {
       firestore()
         .collection('Users')
-        .doc(UserInfo?.name.toString())
+        .doc(
+          (() => (checkData ? UserInfo?.name.toString() : paramsData?.name))(),
+        )
         .update({
-          name: userInfo.name,
-          email: userInfo.email,
+          name: name,
+          email: email,
         })
         .then(() => {
-          firestore()
-            .collection('Users')
-            .doc(UserInfo?.name)
-            .get()
-            .then(Info => {
-              dispatch(
-                updateUserInfo({
-                  ...Info?._data,
-                }),
-              );
-              dispatch(success());
-              navigationService.back();
-            })
-            .catch(error => {
-              console.log(error);
-              // console.log('data reached here not');
-
-              dispatch(success());
-            });
+          if (checkData) {
+            firestore()
+              .collection('Users')
+              .doc(UserInfo?.name)
+              .get()
+              .then(Info => {
+                dispatch(
+                  updateUserInfo({
+                    ...Info?._data,
+                  }),
+                );
+              });
+          }
+          dispatch(success());
+          navigationService.back();
         })
         .catch(error => {
           console.log(error);
@@ -142,24 +150,21 @@ const UpdateProfile = () => {
       </View>
       <View style={{marginTop: 20}} />
       <UserInput
-        placeholder={UserInfo?.name}
         source={usernameImg}
+        placeholder={namePlaceholder}
+        // placeholder={paramsData?.name}
         autoCapitalize={'none'}
         returnKeyType={'done'}
         autoCorrect={false}
-        returnValue={text => {
-          setUserInfo({...userInfo, name: text});
-        }}
+        returnValue={setName}
       />
       <UserInput
-        source={email}
-        placeholder={UserInfo?.email}
+        source={emailPic}
+        placeholder={emailPlaceholder}
         autoCapitalize={'none'}
         returnKeyType={'done'}
         autoCorrect={false}
-        returnValue={text => {
-          setUserInfo({...userInfo, name: text});
-        }}
+        returnValue={setEmail}
       />
       <TouchableOpacity
         style={styles.button}

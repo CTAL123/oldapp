@@ -9,7 +9,6 @@ export default LoginScreen = () => {
     <Wallpaper>
       <Logo />
       <Form />
-      <SignupSection />
     </Wallpaper>
   );
 };

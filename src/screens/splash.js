@@ -21,13 +21,17 @@ const SplashScreen = props => {
   const navigateToHome = () => {
     AsyncStorage.getItem('KeyIsUser').then(async userName => {
       let userInfoJSON = JSON.parse(userName);
-      console.log('userinfo data here', userInfoJSON);
+
+      const userRole = (() =>
+        userInfoJSON?.userRole == 'staff' ? 'Staff' : 'Users')();
+      console.log(userInfoJSON);
       if (userInfoJSON != null) {
         await firestore()
-          .collection('Users')
-          .doc(userInfoJSON?.userName.toString())
+          .collection(`${userRole}`)
+          .doc(userInfoJSON?.name.toString())
           .get()
           .then(userInfo => {
+            console.log('user data splash', userInfo?._data);
             dispatch(
               updateUserInfo({
                 ...userInfo?._data,

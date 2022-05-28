@@ -6,6 +6,7 @@ import {
   Image,
   Text,
   Keyboard,
+  View,
 } from 'react-native';
 
 import {useDispatch} from 'react-redux';
@@ -42,7 +43,22 @@ const Form = () => {
         console.log(error);
       });
   }, []);
-  const userSignup = async () => {
+  useEffect(() => {
+    firestore()
+      .collection('Staff')
+      .get()
+      .then(snap => {
+        snap.forEach(async snp => {
+          userArray.push(snp?.id);
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+
+  console.log('both user username', userArray);
+  const userPatientSignup = async () => {
     try {
       if (userArray.includes(userInfo.name)) {
         await firestore()
@@ -60,7 +76,7 @@ const Form = () => {
               navigationService.navigateReset('HomepageStack');
               AsyncStorage.setItem(
                 'KeyIsUser',
-                JSON.stringify({userName: userInfo?.name}),
+                JSON.stringify({...user?._data}),
               );
             } else {
               dispatch(success());
@@ -74,6 +90,48 @@ const Form = () => {
           .catch(error => {
             // console.log(error);
             dispatch(success());
+          });
+      } else {
+        dispatch(success());
+        Toast.show({
+          type: 'error',
+          text1: 'New user?',
+          text2: 'No user found with username',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch(success());
+    }
+  };
+  const userStaffSignup = async () => {
+    try {
+      if (userArray.includes(userInfo.name)) {
+        await firestore()
+          .collection('Staff')
+          .doc(userInfo?.name)
+          .get()
+          .then(user => {
+            if (user?._data?.password == userInfo?.password) {
+              dispatch(success());
+              dispatch(
+                updateUserInfo({
+                  ...user?._data,
+                }),
+              );
+              navigationService.navigateReset('HomepageStack');
+              AsyncStorage.setItem(
+                'KeyIsUser',
+                JSON.stringify({...user?._data}),
+              );
+            } else {
+              dispatch(success());
+              Toast.show({
+                type: 'error',
+                text1: 'Password Incorrect',
+                text2: 'Enter your own password',
+              });
+            }
           });
       } else {
         dispatch(success());
@@ -130,11 +188,43 @@ const Form = () => {
           Keyboard.dismiss();
           dispatch(loading());
 
-          userSignup();
+          userPatientSignup();
         }}
         activeOpacity={0.7}>
-        <Text style={styles.text}>LOGIN</Text>
+        <Text style={styles.text2}>LOGIN As PATIENT</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, {marginTop: 20}]}
+        onPress={() => {
+          Keyboard.dismiss();
+          dispatch(loading());
+
+          userStaffSignup();
+        }}
+        activeOpacity={0.7}>
+        <Text style={styles.text2}>LOGIN AS STAFF</Text>
+      </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#ff5e1e',
+          paddingVertical: 10,
+          paddingHorizontal: 10,
+          borderRadius: 10,
+          marginHorizontal: 40,
+          margin: 20,
+        }}>
+        <Text style={styles.text}>New user , </Text>
+        <TouchableOpacity
+          activeOpacity={0.75}
+          onPress={() => {
+            navigationService.navigate('SignUpForm');
+          }}>
+          <Text style={styles.textDark}>Create Account</Text>
+        </TouchableOpacity>
+      </View>
     </>
   );
 };
@@ -142,8 +232,20 @@ const Form = () => {
 export default Form;
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0.7,
     alignItems: 'center',
+  },
+  text: {
+    color: 'white',
+    backgroundColor: 'transparent',
+  },
+  text2: {
+    color: 'black',
+    backgroundColor: 'transparent',
+  },
+  textDark: {
+    color: '#32eaff',
+    textDecorationLine: 'underline',
   },
   btnEye: {
     position: 'absolute',
@@ -171,5 +273,4 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 6,
   },
-  text: {},
 });

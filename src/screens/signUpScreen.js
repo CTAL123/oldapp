@@ -66,14 +66,12 @@ export const SignUpForm = () => {
     };
     try {
       await firestore()
-        .collection('Users')
+        // .collection([userRole == 'staff' ? 'Staff' : 'Users'])
+        .collection((() => (userRole == 'staff' ? 'Staff' : 'Users'))())
         .doc(userInfo.name)
         .set(userData)
         .then(() => {
-          AsyncStorage.setItem(
-            'KeyIsUser',
-            JSON.stringify({userName: userInfo?.name}),
-          );
+          AsyncStorage.setItem('KeyIsUser', JSON.stringify({...userData}));
 
           dispatch(updateUserInfo(userData));
           navigationService.navigateReset('HomepageStack');
