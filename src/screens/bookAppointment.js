@@ -239,13 +239,13 @@ const BookAppointment = () => {
         </View>
         <FitnessTaskCard
           doctorName="Dr. Kamal Bhandari"
-          routine="1 March,  7:00 am"
+          routine="16 june 2022,  7:00 am"
           address="Australia"
           onPress={() => TwoButtonAlert()}
         />
         <FitnessTaskCard
           doctorName="Dr. Bhagwan koirala"
-          routine="12 September, 10:00 am"
+          routine="28 June 2022, 10:00 am"
           address="Sydney"
           onPress={() => TwoButtonAlert()}
         />
